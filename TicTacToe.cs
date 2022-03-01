@@ -45,12 +45,10 @@ namespace GameJam
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            string gameStatus = "Tie";
-
-            if (player1WinCount > player2WinCount) gameStatus = player1Name + " : " + player1WinCount;
-            else if (player2WinCount > player1WinCount) gameStatus = player2Name + " : " + player2WinCount;
-
-            GameOverEvent?.Invoke(this.Name, gameStatus);
+            GameOverEvent?.Invoke(this.Name,
+                player1Name + " : " + player1WinCount
+                + ", " + player2Name + " : " + player2WinCount
+                + ", Tie : " + tieCount);
             base.OnClosing(e);
         }
 
