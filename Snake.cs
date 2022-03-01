@@ -6,9 +6,18 @@ using System.Windows.Forms;
 
 namespace GameJam
 {
-    public partial class Snake : Form
+    public partial class Snake : Form, IGameStats
     {
-        public event Action<int> SnakeGameStatus;
+        class Piece : Label
+        {
+            public Piece(int x, int y, int scale)
+            {
+                Location = new System.Drawing.Point(x, y);
+                Size = new System.Drawing.Size(scale, scale);
+                BackColor = System.Drawing.Color.Green;
+                Enabled = false;
+            }
+        }
 
         private int cols = 50, rows = 25, score = 0,
             dx = 0, dy = 0, front = 0, back = 0;
@@ -20,6 +29,8 @@ namespace GameJam
 
         Random rand = new Random();
         Timer timer = new Timer();
+
+        public event Action<string, string> GameOverEvent;
 
         public Snake()
         {
@@ -61,7 +72,7 @@ namespace GameJam
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            SnakeGameStatus?.Invoke(score);
+            GameOverEvent?.Invoke(this.Name, score.ToString());
             base.OnClosing(e);
         }
 
